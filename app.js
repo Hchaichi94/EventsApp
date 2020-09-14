@@ -6,15 +6,11 @@ const app = express()
 
 const grapgQlSchema = require('./graphql/schema/index')
 const grapghQlResolvers = require('./graphql/resolvers/index')
+const isAuth = require('./middleware/is-auth')
 
 
-
-
-
-
-
+app.use(isAuth)
 app.use(boyParser.json())
-
 app.use('/graphql', graphqlHTTP({
 
     schema: grapgQlSchema,
@@ -23,8 +19,6 @@ app.use('/graphql', graphqlHTTP({
 
     graphiql: true
 }))
-
-
 
 mongoose.connect(
     `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.ac7gz.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`, {
